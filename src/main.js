@@ -14,3 +14,29 @@
  * прибрати завдання зі списку.
  * Список із завданнями має бути доступним після перезавантаження сторінки.
  */
+// Отримати значення - сформувати об'єкт для локального сховища з додаванням айді- записати в сховище
+import { nanoid } from 'nanoid';
+const taskForm = document.querySelector('#task-form');
+const TASKS = 'tasks';
+let localStorageCards = JSON.parse(localStorage.getItem(TASKS)) || [];
+
+taskForm.addEventListener('submit', event => {
+  event.preventDefault();
+
+  const taskNameValue = event.currentTarget.elements.taskName.value.trim();
+  const taskTextValue = event.currentTarget.elements.taskText.value.trim();
+
+  if (!taskNameValue && !taskTextValue) {
+    alert('Введіть назву та текст задачі');
+    return;
+  }
+  const newTask = {
+    id: nanoid(),
+    taskName: taskNameValue,
+    taskText: taskTextValue,
+  };
+
+  localStorageCards.push(newTask);
+  localStorage.setItem(TASKS, JSON.stringify(localStorageCards));
+  console.log(localStorageCards);
+});
