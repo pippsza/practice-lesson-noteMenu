@@ -16,9 +16,11 @@
  */
 // Отримати значення - сформувати об'єкт для локального сховища з додаванням айді- записати в сховище
 import { nanoid } from 'nanoid';
+import localStorageApi from './js/localStorageApi';
+import { renderTasks } from './js/render-tasks-1'
 const taskForm = document.querySelector('#task-form');
 const TASKS = 'tasks';
-let localStorageCards = JSON.parse(localStorage.getItem(TASKS)) || [];
+localStorageApi.initStorage();
 
 taskForm.addEventListener('submit', event => {
   event.preventDefault();
@@ -36,7 +38,7 @@ taskForm.addEventListener('submit', event => {
     taskText: taskTextValue,
   };
 
-  localStorageCards.push(newTask);
-  localStorage.setItem(TASKS, JSON.stringify(localStorageCards));
-  console.log(localStorageCards);
+  localStorageApi.addTask(newTask);
+  renderTasks()
 });
+renderTasks()
